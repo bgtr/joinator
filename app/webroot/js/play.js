@@ -8,7 +8,7 @@ $(function(){
     $.ajax({
       type: "GET",
       url: "/cakephp/api/answer",
-      data: {"karte_id":response_json.karte_id, "choice_id":choice_id}
+      data: {"karte_id":response_json.karte_id, "choice_id":choice_id, "index":response_json.index}
     }).done(function(data) {
       // 描画
       draw(data);
