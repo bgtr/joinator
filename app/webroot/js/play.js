@@ -1,6 +1,7 @@
 var response_json;
 
 $(function(){
+  init();
   $(document).on("click", ".btn_", function(){
     // 2問目以降
     var choice_id = $(this).data("value");
@@ -45,14 +46,12 @@ function draw(data){
     // 選択肢
     $.each(data.question.choices, function(i){
       $("#btn_"+i).attr("data-value",data.question.choices[i].id);
-      $("#btn_caption_"+i).html(data.question.choices[i].text);
+      $("#btn_caption_"+i).html(data.question.choices[i].text)
+                          .attr("data-value",data.question.choices[i].id);
+
     });
   }else{
     // 結果発表
     $("#textarea").append(data.result);
   }
 }
-
-$(function(){
-  init();
-});

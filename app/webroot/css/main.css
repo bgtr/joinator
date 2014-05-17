@@ -126,3 +126,7 @@ p {
     width:624px;
     height:648px;
 }
+
+.btn_:hover {
+    cursor: pointer;
+}
