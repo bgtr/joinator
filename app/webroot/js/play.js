@@ -44,7 +44,7 @@ function draw(data){
     
     // 選択肢
     $.each(data.question.choices, function(i){
-      $("#btn_"+i).attr("data-value",data.question.choices[i].value);
+      $("#btn_"+i).attr("data-value",data.question.choices[i].id);
       $("#btn_caption_"+i).html(data.question.choices[i].text);
     });
   }else{
