@@ -1,14 +1,16 @@
 var response_json;
+var index = 1;
 
 $(function(){
   init();
   $(document).on("click", ".btn_", function(){
     // 2問目以降
     var choice_id = $(this).data("value");
+    index++;
     $.ajax({
       type: "GET",
       url: "/cakephp/api/answer",
-      data: {"karte_id":response_json.karte_id, "choice_id":choice_id, "index":response_json.index}
+      data: {"karte_id":response_json.karte_id, "choice_id":choice_id, "index": index}
     }).done(function(data) {
       // 描画
       draw(data);
@@ -52,6 +54,7 @@ function draw(data){
     });
   }else{
     // 結果発表
-    $("#textarea").append(data.result);
+    $("#textarea").append(data.result.text);
+    console.log(data);
   }
 }

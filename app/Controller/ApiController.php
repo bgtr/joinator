@@ -47,7 +47,7 @@ class ApiController extends Controller {
     $this->_out($json);
   }
 
-  private function _getNextQuestion($params) {
+  private function _getNextQuestion($params = null) {
     $json = array();
 
     $json["info"] = array(
@@ -55,10 +55,11 @@ class ApiController extends Controller {
     );
     $json["image"] = $this->_chooseImg();
 
-    //if ($params["index"] < 10) {
-    if (false) {
+    if ($params["index"] < 10) {
+    //if (false) {
 
-      $json["question"] = $this->_chooseQuestion();
+      $question = $this->_chooseQuestion();
+      $json["question"] = $question["Question"];
       $json["question"]["choices"] = $question["Choices"];
 
     } else {
@@ -95,7 +96,7 @@ class ApiController extends Controller {
       $question = $questions[rand(0, count($questions) - 1)];
     }
 
-    return $question["Question"];
+    return $question;
   }
 
   private function _chooseImg() {
