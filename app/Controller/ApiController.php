@@ -23,34 +23,28 @@ App::uses('Controller', 'Controller');
  */
 class ApiController extends Controller {
 
-  public $uses = array('Question', 'Choice', 'Answer');
+  public $uses = array('Question', 'Choice', 'User', 'UserAnswer', 'UserStyle', 'Suggest');
 
-  public static $USER_ID = 1; // For Test
+  public $user_id = 1; // For Test
   
   public function start() {
     
     $json = $this->_getNextQuestion();
-    $json["carte_id"] = hash("sha256", uniqid(uniqid()));
+    $json["karte_id"] = hash("sha256", uniqid(uniqid()));
     
     $this->_out($json);
   }
 
   public function answer() {
-    $params = $this->request->params;
+    $params = $this->request->query;
 
-    // save
-    $answer = array(
-      "user_id" => $this->USER_ID,
-      "choice_id" => $params["choice_id"],
-      "carte_id" => $params["carte_id"],
-    );
-    $this->Answer->create();
-    $this->Answer->save($answer);
+    // Save 
+    $this->_saveAnswer($params);
     
     // next question
     $json = $this->_getNextQuestion();
-    $json["carte_id"] = $params["carte_id"]; // 引き継ぐ
-    
+    $json["karte_id"] = $params["karte_id"]; // 引き継ぐ
+    $this->_out($json);
   }
 
   private function _getNextQuestion() {
@@ -61,8 +55,23 @@ class ApiController extends Controller {
     );
     $json["image"] = $this->_chooseImg();
 
-    $question_id = 1;
-    $question = $this->Question->findById($question_id);
+    $user_answers = $this->UserAnswer->find('all', array(
+					"fields" => array("UserAnswer.question_id"),
+					"order" => array("UserAnswer.updated_time DESC"),
+					"limit" => 10,
+					));
+    $not_question_ids = array();
+    foreach ($user_answers as $value) {
+      $not_question_ids[] = $value["UserAnswer"]["question_id"]; 
+    }
+    $limit = 1;
+    $questions = $this->Question->find("all", array(
+					"conditions" => array(
+                                          "NOT" => array("Question.id" => $not_question_ids)
+                                        ),
+					"limit" => $limit,
+                                    ));
+    $question = $questions[rand(0, $limit - 1)];
     $json["question"] = $question["Question"];
     $json["question"]["choices"] = $question["Choices"];
 
@@ -78,6 +87,44 @@ class ApiController extends Controller {
     $index = 0;
     return $imgs[$index];
   }       
+
+  private function _saveAnswer($params) {
+    $datasource = $this->UserAnswer->getDataSource();
+    
+    try {
+      $datasource->begin();
+
+      // UserAnswer
+      $choice = $this->Choice->findById($params["choice_id"]);
+      $style_id = $choice["Question"]["style_id"];
+      $user_style = $this->UserStyle->find("first", 
+					array("conditions" => array(
+						"UserStyle.user_id" => $this->user_id, 
+						"UserStyle.style_id" => $style_id)));
+      $user_style["UserStyle"]["answer_num"] += 1;
+      $user_style["UserStyle"]["score"] += $choice["Choice"]["value"];
+      $this->UserStyle->save($user_style["UserStyle"]);
+
+      // Answer
+      $answer = array(
+        "user_id" => $this->user_id,
+        "choice_id" => $params["choice_id"],
+        "karte_id" => $params["karte_id"],
+        "question_id" => $choice["Choice"]["question_id"],
+      );
+      $this->UserAnswer->save($answer);
+  
+      // User
+      $user = $this->User->findById($this->user_id);
+      $user["User"]["answer_num"] += 1;
+      $this->User->save($user["User"]);
+
+      $datasource->commit();
+
+    } catch (Exception $e) {
+      $datasource->rollback();
+    }
+  }
 
   private function _out($json) {
     foreach ($json as $key => $value) {
