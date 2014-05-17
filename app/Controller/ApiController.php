@@ -23,7 +23,7 @@ App::uses('Controller', 'Controller');
  */
 class ApiController extends Controller {
 
-  public $uses = array('Question', 'Choice', 'User', 'UserAnswer', 'UserStyle', 'Suggest');
+  public $uses = array('Question', 'Choice', 'User', 'UserAnswer', 'UserStyle', 'Suggest', 'UserSuggest');
 
   public $user_id = 1; // For Test
   
@@ -42,12 +42,12 @@ class ApiController extends Controller {
     $this->_saveAnswer($params);
     
     // next question
-    $json = $this->_getNextQuestion();
+    $json = $this->_getNextQuestion($params);
     $json["karte_id"] = $params["karte_id"]; // 引き継ぐ
     $this->_out($json);
   }
 
-  private function _getNextQuestion() {
+  private function _getNextQuestion($params) {
     $json = array();
 
     $json["info"] = array(
@@ -55,6 +55,23 @@ class ApiController extends Controller {
     );
     $json["image"] = $this->_chooseImg();
 
+    //if ($params["index"] < 10) {
+    if (false) {
+
+      $json["question"] = $this->_chooseQuestion();
+      $json["question"]["choices"] = $question["Choices"];
+
+    } else {
+
+      $json["result"] = $this->_chooseResult();
+      $json["info"]["state"] = "result";
+
+    }
+
+    return $json;
+  }
+
+  private function _chooseQuestion() {
     $user_answers = $this->UserAnswer->find('all', array(
 					"fields" => array("UserAnswer.question_id"),
 					"order" => array("UserAnswer.updated_time DESC"),
@@ -77,10 +94,8 @@ class ApiController extends Controller {
       $questions = $this->Question->find("all");
       $question = $questions[rand(0, count($questions) - 1)];
     }
-    $json["question"] = $question["Question"];
-    $json["question"]["choices"] = $question["Choices"];
 
-    return $json;
+    return $question["Question"];
   }
 
   private function _chooseImg() {
@@ -92,6 +107,58 @@ class ApiController extends Controller {
     $index = 0;
     return $imgs[$index];
   }       
+
+  private function _chooseResult() {
+    $user_styles = $this->UserStyle->find('all', array(
+					"conditions" => array(
+                                          "UserStyle.user_id" => $this->user_id
+					)));
+
+    $max = 0;
+    $style_id = null;
+    foreach ($user_styles as $user_style) {
+       $num = $user_style["UserStyle"]["answer_num"];
+       $score = $user_style["UserStyle"]["score"];
+       $avg = ($num == 0) ? 0 : $score / $num;
+       if ($max < $avg) {
+         $max = $avg;
+         $style_id = $user_style["UserStyle"]["style_id"];
+       }
+    }
+
+    $suggests = $this->Suggest->find('all', array(
+					"conditions" => array(
+                                          "Suggest.style_id" => $style_id
+					)));
+    $suggest = $suggests[rand(0, count($suggests) - 1)];
+
+    // save user suggest
+    $this->_saveUserSuggest($suggest["Suggest"]["id"]); 
+
+    $result = $suggest["Suggest"];
+
+    return $result;
+    
+  }
+
+  private function _saveUserSuggest($suggest_id) {
+    $datasource = $this->UserSuggest->getDataSource();
+    try {
+      $datasource->begin();
+    
+      $this->Suggest->create();
+      $data = array(
+                 "user_id" => $this->user_id,
+                 "suggest_id" => $suggest_id
+               );
+      $this->Suggest->save($data);
+
+      $datasource->commit();
+
+    } catch (Exception $e) {
+      $datasource->rollback();
+    }
+  }
 
   private function _saveAnswer($params) {
     $datasource = $this->UserAnswer->getDataSource();
