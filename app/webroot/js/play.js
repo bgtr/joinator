@@ -5,7 +5,7 @@ $(function(){
     // 2問目以降
     var choice_id = $(this).data("value");
     $.ajax({
-      type: "POST",
+      type: "GET",
       url: "/cakephp/api/answer",
       data: {"karte_id":response_json.karte_id, "choice_id":choice_id}
     }).done(function(data) {
@@ -21,7 +21,7 @@ $(function(){
  */
 function init(){
   $.ajax({
-    type: "POST",
+    type: "GET",
     url: "/cakephp/api/start",
     data: {"user":"hoge"}
   }).done(function(data){
@@ -29,6 +29,7 @@ function init(){
     draw(data);
     response_json = data;
   });
+}
 
 /**
  * データをテンプレートに流し込む
@@ -42,7 +43,7 @@ function draw(data){
     $("#textarea").html(data.question.text);
     
     // 選択肢
-    $.each(function(i){
+    $.each(data.question.choices, function(i){
       $("#btn_"+i).attr("data-value",data.question.choices[i].value);
       $("#btn_caption_"+i).html(data.question.choices[i].text);
     });
@@ -52,4 +53,6 @@ function draw(data){
   }
 }
 
-}
+$(function(){
+  init();
+});
