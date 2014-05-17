@@ -64,14 +64,19 @@ class ApiController extends Controller {
     foreach ($user_answers as $value) {
       $not_question_ids[] = $value["UserAnswer"]["question_id"]; 
     }
-    $limit = 1;
+    $limit = 3;
     $questions = $this->Question->find("all", array(
 					"conditions" => array(
                                           "NOT" => array("Question.id" => $not_question_ids)
                                         ),
 					"limit" => $limit,
                                     ));
-    $question = $questions[rand(0, $limit - 1)];
+    if ($questions != null) {
+      $question = $questions[rand(0, count($questions) - 1)];
+    } else {
+      $questions = $this->Question->find("all");
+      $question = $questions[rand(0, count($questions) - 1)];
+    }
     $json["question"] = $question["Question"];
     $json["question"]["choices"] = $question["Choices"];
 
