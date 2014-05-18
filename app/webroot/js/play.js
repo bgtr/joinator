@@ -84,7 +84,7 @@ function draw(data){
     // 女医
     $("#joi_img").remove();
     $("#btn_div").remove();
-    $("#_____01").css("backgroundImage", data.image);
+    $("#_____01").css("backgroundImage", "url(" + data.image + ")");
 
     console.log(data);
   }
