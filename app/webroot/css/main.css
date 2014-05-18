@@ -6,7 +6,7 @@
     left:0px;
     top:0px;
     width:640px;
-    height:943px;
+    height:920px;
     background-image: url("/cakephp/img/app/bg02.png");
 }
 
@@ -32,7 +32,7 @@
     margin:0 auto;
     left:8px;
     bottom:88px;
-    margin-bottom: 20px;
+    margin-bottom: 56px;
     width:308px;
     height:88px;
 }
@@ -42,7 +42,7 @@
     text-align:center;
     left:324px;
     bottom:88px;
-    margin-bottom: 20px;
+    margin-bottom: 56px;
     width:308px;
     height:88px;
 }
@@ -52,7 +52,7 @@
     text-align:center;
     left:8px;
     bottom:0px;
-    margin-bottom: 20px;
+    margin-bottom: 46px;
     width:308px;
     height:88px;
 }
@@ -62,7 +62,7 @@
     text-align:center;
     left:324px;
     bottom:0px;
-    margin-bottom: 20px;
+    margin-bottom: 46px;
     width:308px;
     height:88px;
 }
@@ -109,8 +109,7 @@ p {
 
 #textarea_ {
     position:absolute;
-    left:8px;
-    top:8px;
+    padding: 8px;
     width:640px;
     height:300px;
 }
@@ -123,7 +122,6 @@ color: #333;
 
 #character01_ {
     position:absolute;
-    left:50px;
     top:100px;
     width: 593px;
     height: 532px;
