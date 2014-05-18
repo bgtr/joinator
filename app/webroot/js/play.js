@@ -63,11 +63,12 @@ function draw(data){
       $("#btn_caption_"+i).html(data.question.choices[i].text)
                           .attr("data-value",data.question.choices[i].id)
                           .attr("data-reply",data.question.choices[i].reply);
-
     });
   }else{
     // 結果発表
-    $("#textarea").html(data.result.text);
+    $("#textarea").html(data.result.text)
+                  .html(data.result.html);
+    $("#btn_div").hide();
     console.log(data);
   }
 }
