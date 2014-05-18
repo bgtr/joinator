@@ -1,9 +1,12 @@
 #_____01 {
+    /*
     position:absolute;
+    */
+    position: relative;
     left:0px;
     top:0px;
     width:640px;
-    height:920px;
+    height:943px;
 }
 
 #test-temps-01_ {
@@ -27,7 +30,8 @@
     text-align:center;
     margin:0 auto;
     left:8px;
-    top:952px;
+    bottom:88px;
+    margin-bottom: 5px;
     width:308px;
     height:88px;
 }
@@ -36,7 +40,8 @@
     position:absolute;
     text-align:center;
     left:324px;
-    top:952px;
+    bottom:88px;
+    margin-bottom: 5px;
     width:308px;
     height:88px;
 }
@@ -45,7 +50,8 @@
     position:absolute;
     text-align:center;
     left:8px;
-    top:1040px;
+    bottom:0px;
+    margin-bottom: 5px;
     width:308px;
     height:88px;
 }
@@ -54,7 +60,8 @@
     position:absolute;
     text-align:center;
     left:324px;
-    top:1040px;
+    bottom:0px;
+    margin-bottom: 5px;
     width:308px;
     height:88px;
 }
@@ -84,13 +91,17 @@
 }
 
 #div_log_btn {
+    /*
+    position:absolute;
     bottom: 0;
+    */
     width: 640px;
     height: 88px;
 }
 
 p {
     line-height: 88px;
+    font-weight: 700;
 }
 
 #textarea_ {
@@ -101,10 +112,16 @@ p {
     height:300px;
 }
 
+#textarea {
+font-size: 2em;
+font-weight: 700;
+color: #333;
+}
+
 #character01_ {
     position:absolute;
-    left:8px;
-    top:300px;
+    left:50px;
+    top:100px;
     width: 593px;
     height: 532px;
 }
