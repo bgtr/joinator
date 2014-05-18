@@ -83,7 +83,7 @@ function draw(data){
                   .html(data.result.html);
     // 女医
     $("#joi_img").remove();
-    $("#btn_div").hide();
+    $("#btn_div").remove();
     $("#_____01").css("background", data.image);
 
     console.log(data);
