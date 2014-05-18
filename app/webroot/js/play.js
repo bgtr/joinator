@@ -81,10 +81,10 @@ function draw(data){
     // 結果発表
     $("#textarea").html(data.result.text)
                   .html(data.result.html);
-    // 女医は隠す
+    // 女医
     $("#joi_img").remove();
     $("#btn_div").hide();
-    
+    $("#_____01").css("background", data.image);
 
     console.log(data);
   }
