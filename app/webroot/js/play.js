@@ -22,7 +22,7 @@ $(function(){
         draw(data);
         $("#btn_div").show();
         response_json = data;
-      }, 1500);
+      }, 2500);
     });
   });
 });
@@ -55,7 +55,20 @@ function draw(data){
 
   if(data.info.state == "question"){
     // 質問文
-    $("#textarea").html(data.question.text);
+    (function(){
+      $("#textarea").html("");
+      var i = 0;
+      var text =  data.question.text;
+      var render = function() {
+        $("#textarea").append(text.charAt(i));
+        var timer = setTimeout(render, 150);
+        i++;
+        if (text.length == i)
+          clearTimeout(timer);
+      };
+      render();
+    })();
+    response_json = data;
     
     // 選択肢
     $.each(data.question.choices, function(i){
