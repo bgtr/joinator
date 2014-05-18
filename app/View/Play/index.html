@@ -29,7 +29,7 @@
         <!-- Save for Web Slices (test_temps.psd) -->
         <div id="_____01">
             <div id="btn-toprog_">
-                <img id="btn_toprog" src="/cakephp/img/app/btn_toprog.png" width="640" height="88" alt="" />
+                <img id="btn_toprog" src="/cakephp/img/app/btn_toprog.png" width="640" height="88" alt="" data-toggle="modal" data-target="#myLog"/>
                 <div id="textarea_">
                     <img id="textarea_" src="/cakephp/img/app/textarea.png" width="624" height="360" alt="" />
                     <div id="textarea" style="margin-top: 100px"></div>
@@ -38,24 +38,43 @@
                     <img id="joi_img" src="/cakephp/img/app/character01.png" width="624" height="648" alt="" />
                 </div>  
             </div>
-            <div id="btn_0" class="btn_" data-value="">
+            <div id="btn_0" class="btn_" data-value="" data-reply="">
                 <img src="/cakephp/img/app/btn.png" width="308" height="88" alt="" />
-                <p id="btn_caption_0" class="btn_" data-value=""></p>
+                <p id="btn_caption_0" class="btn_" data-value="" data-reply=""></p>
             </div>
-            <div id="btn_1" class="btn_" data-value="">
+            <div id="btn_1" class="btn_" data-value="" data-reply="">
                 <img src="/cakephp/img/app/btn.png" width="308" height="88" alt="" />
-                <p id="btn_caption_1" class="btn_" data-value=""></p>
+                <p id="btn_caption_1" class="btn_" data-value="" data-reply=""></p>
             </div>
-            <div id="btn_2" class="btn_" data-value="">
+            <div id="btn_2" class="btn_" data-value="" data-reply="">
                 <img src="/cakephp/img/app/btn.png" width="308" height="88" alt="" />
-                <p id="btn_caption_2" class="btn_" data-value=""></p>
+                <p id="btn_caption_2" class="btn_" data-value="" data-reply=""></p>
             </div>
-            <div id="btn_3" class="btn_" data-value="">
+            <div id="btn_3" class="btn_" data-value="" data-reply="">
                 <img src="/cakephp/img/app/btn.png" width="308" height="88" alt="" />
-                <p id="btn_caption_3" class="btn_" data-value=""></p>
+                <p id="btn_caption_3" class="btn_" data-value="" data-reply=""></p>
             </div>
         </div>
         <!-- End Save for Web Slices -->
+
+        <!-- Modal -->
+        <div class="modal fade" id="myLog" tabindex="-1" role="dialog" aria-labelledby="myLogLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="myLogLabel">Modal title</h4>
+                    </div>
+                    <div class="modal-body">
+                        <canvas id="myChart" width="400" height="400"></canvas>
+                    </div>
+                    <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+  </div>
+</div>
 
         <!-- build:js scripts/vendor.js -->
         <!-- bower:js -->
@@ -90,6 +109,7 @@
 
         <!-- build:js({app,.tmp}) scripts/main.js -->
         <script src="/cakephp/js/play.js"></script>
+        <script src="/cakephp/js/lib/Chart.js"></script>
         <!-- endbuild -->
     </body>
 </html>
