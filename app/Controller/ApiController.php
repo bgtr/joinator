@@ -108,7 +108,24 @@ class ApiController extends Controller {
       "/cakephp/img/app/character04.png",
     );
 
-    $index = 0;
+    $choice_id = $this->request->query("choice_id");
+    if ($choice_id) {
+      $choice = $this->Choice->findById($choice_id);
+      $value = $choice["Choice"]["value"];
+
+      if ($value <= 2) {
+        $index = 0;
+      } else if ($value <= 5) {
+        $index = 1;
+      } else if ($value <= 8) {
+        $index = 2;
+      } else if ($value <= 10) {
+        $index = 3;
+      }
+    } else {
+      $index = 1;
+    }
+
     return $imgs[$index];
   }       
 
