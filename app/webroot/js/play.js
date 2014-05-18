@@ -16,12 +16,13 @@ $(function(){
     }).done(function(data) {
       // 返答を返して会話してる感を出す
       $("#textarea").html(reply);
-      
+      $("#btn_div").hide();
       // 描画
       window.setTimeout(function(){
         draw(data);
+        $("#btn_div").show();
         response_json = data;
-      }, 2000);
+      }, 1500);
     });
   });
 });
