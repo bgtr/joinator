@@ -102,10 +102,10 @@ class ApiController extends Controller {
   private function _chooseImg() {
 
     $imgs = array(
-      "/img/character01.png",
-      "/img/character02.png",
-      "/img/character03.png",
-      "/img/character04.png",
+      "/cakephp/img/app/character01.png",
+      "/cakephp/img/app/character02.png",
+      "/cakephp/img/app/character03.png",
+      "/cakephp/img/app/character04.png",
     );
 
     $index = 0;
