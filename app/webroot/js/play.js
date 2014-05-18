@@ -5,14 +5,20 @@ $(function(){
   $(document).on("click", ".btn_", function(){
     // 2問目以降
     var choice_id = $(this).data("value");
+
     $.ajax({
       type: "GET",
       url: "/cakephp/api/answer",
       data: {"karte_id":response_json.karte_id, "choice_id":choice_id, "index":response_json.index}
     }).done(function(data) {
+      // 返答を返して会話してる感を出す
+      $("#textarea").html(data.question.);
+      
       // 描画
-      draw(data);
-      response_json = data;
+      window.setTimeout(function(){
+        draw(data);
+        response_json = data;
+      }, 2000);
     });
   });
 });
@@ -29,6 +35,10 @@ function init(){
     // 描画
     draw(data);
     response_json = data;
+
+    // モーダルにグラフを仕込む
+    var ctx = document.getElementById("myChart").getContext("2d");
+    var myNewChart = new Chart(ctx).PolarArea(data);
   });
 }
 
@@ -45,9 +55,11 @@ function draw(data){
     
     // 選択肢
     $.each(data.question.choices, function(i){
-      $("#btn_"+i).attr("data-value",data.question.choices[i].id);
+      $("#btn_"+i).attr("data-value",data.question.choices[i].id)
+                  .attr("data-reply",data.question.choices[i].reply);
       $("#btn_caption_"+i).html(data.question.choices[i].text)
-                          .attr("data-value",data.question.choices[i].id);
+                          .attr("data-value",data.question.choices[i].id)
+                          .attr("data-reply",data.question.choices[i].reply);
 
     });
   }else{
