@@ -51,9 +51,8 @@ function init(){
  *
  */
 function draw(data){
-  $("#joi_img").attr("src",data.image);
-
   if(data.info.state == "question"){
+    $("#joi_img").attr("src",data.image);
     // 質問文
     (function(){
       $("#textarea").html("");
@@ -82,7 +81,11 @@ function draw(data){
     // 結果発表
     $("#textarea").html(data.result.text)
                   .html(data.result.html);
+    // 女医は隠す
+    $("#joi_img").remove();
     $("#btn_div").hide();
+    
+
     console.log(data);
   }
 }
